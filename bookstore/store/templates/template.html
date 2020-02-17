@@ -5,6 +5,11 @@
     <title>Some template</title>
 </head>
 <body>
+{% if request.user.is_authenticated %}
+    welcome {{ request.user.first_name }}
+{% else %}
+
+{% endif %}
 Template1.
 </body>
 </html>
