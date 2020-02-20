@@ -5,11 +5,14 @@
     <title>Some template</title>
 </head>
 <body>
-{% if request.user.is_authenticated %}
-    welcome {{ request.user.first_name }}
-{% else %}
+{% if uname %}
+<h4>
 
+    welcome {{ uname }}!
+    <a href="{% url 'logout'%}">Log out</a>
+</h4>
 {% endif %}
+<br/>
 Template1.
 </body>
 </html>
