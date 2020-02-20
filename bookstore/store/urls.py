@@ -7,7 +7,8 @@ urlpatterns = [
     path('stock/', views.store, name='store'),
     path('signin/', views.loginpage, name='loginpage'),
     path('profile/', views.profile, name='profile'),
-    path('logout/', views.logout, name='logout'),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+
+    path('logout/', views.logout, name='logout'),
 ]

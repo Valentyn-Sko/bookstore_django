@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'registration',
+    #'registration',
     'django_registration',
+    #'social.apps.django_app.default',
     'store',
 ]
 
@@ -65,6 +66,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+           #     'social.app.django_app.context_processors.backends',
+            #    'social.app.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -136,3 +139,12 @@ EMAIL_HOST_USER = 'i0000017vs@gmail.com'
 EMAIL_HOST_PASSWORD = 'thermonuclearengine'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'some@email.com'
+
+
+AUTHENTICATION_BACKEND = {
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backend.ModelBackend',
+}
+
+SOCIAL_AUTH_FACEBOOK_KEY = ''
+SOCIAL_AUTH_FACEBOOK_SECRET = ''

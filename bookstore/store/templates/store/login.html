@@ -1,6 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login Form
+{% endblock %}
+
 {% block content %}
-    <div class="container">
-    <h2>Login Form</h2>
+ <div class="container">
     <form method="POST" id="add_form" action="{% url 'loginpage' %}">{% csrf_token %}
       <div class="form-group">
         <label >User Name</label>
@@ -12,12 +17,14 @@
         <div class="input"><input type="password" name="password" required="required"></div>
         <div class="clear"></div>
     </div>
-    <div class="form-group"> 
+    <div class="form-group">
       <label></label>
         <div class="submit">
           <button type="submit" class="btn-primary">Login</button>
         </div>
         <div class="clear"></div> </div>
 </form>
+     <!--a href = "{% url 'social:begin' 'facebook' %}">Login with Facebook</a-->
+
   </div>
 {% endblock %}

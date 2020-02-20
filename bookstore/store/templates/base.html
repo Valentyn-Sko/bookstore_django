@@ -1,3 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+Title
+{% endblock %}
+    </title>
+</head>
+<body background="{% static 'base/img/header_full.jpg'%}">
+<div>
+{% block top %}
+{% if login_logout %}
+<div>
+    <a href="{% url 'logout' %}">Log Out</a>
+</div>
+{% else %}
+<div>
+    <a href="{% url 'loginpage' %}">Login</a>
+</div>
+
+{% endif %}
+{% endblock %}
+
+</div>
+<div>
 {% block content %}
+Content
+{% endblock %}
+</div>
+<div>
+{% block footer %}
 
 {% endblock %}
+</div>
+</body>
+</html>

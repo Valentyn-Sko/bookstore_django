@@ -16,7 +16,10 @@ def index(request):
 
 def store(request):
     count = Book.objects.all().count()
-    return render(request, 'stock.html', context={'count': count})
+    login_logout=False
+    if request.session.has_key('username'):
+        login_logout=True
+    return render(request, 'store/stock.html', context={'count': count, 'login_logout': login_logout})
 
 
 def loginpage(request):
