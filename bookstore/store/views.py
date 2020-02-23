@@ -8,7 +8,7 @@ def index(request):
         posts = request.session['username']
         query = User.objects.filter(username=posts)
 
-        uname=query[0].username
+        uname = query[0].username
         return render(request, 'store/template.html', {"uname": uname})
 
     return render(request, 'store/template.html')
@@ -16,24 +16,22 @@ def index(request):
 
 def store(request):
     count = Book.objects.all().count()
-    login_logout=False
-    if request.session.has_key('username'):
-        login_logout=True
-    return render(request, 'store/stock.html', context={'count': count, 'login_logout': login_logout})
+
+    return render(request, 'store/stock.html', context={'count': count})
 
 
-def loginpage(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        post = User.objects.filter(username=username)
-        if post:
-            username = request.POST['username']
-            request.session['username'] = username
-            return redirect("profile")
-        else:
-            return render(request, 'store/login.html', {})
-    return render(request, 'store/login.html', {})
+# def loginpage(request):      # for custom loinpage (../signin/)
+#    if request.method == 'POST':
+#        username = request.POST['username']
+#        password = request.POST['password']
+#        post = User.objects.filter(username=username)
+#        if post:
+#            username = request.POST['username']
+#            request.session['username'] = username
+#            return redirect("profile")
+#        else:
+#            return render(request, 'store/login.html', {})
+#    return render(request, 'store/login.html', {})
 
 
 def profile(request):
@@ -44,11 +42,10 @@ def profile(request):
     else:
         return render(request, 'store/login.html', {})
 
-
-def logout(request):
-    try:
-        del request.session['username']
-    except:
-        pass
-    #return loginpage(request)
-    return render(request, 'store/logout.html', {})
+# def logout(request):  #for custom logout
+#    try:
+#        del request.session['username']
+#    except:
+#        pass
+#    #return loginpage(request)
+#    return render(request, 'store/logout.html', {})

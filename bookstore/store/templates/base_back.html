@@ -8,10 +8,11 @@
 
 
 {% block bootstrap3_extra_head %}
+
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
 <link href="{% static 'base/css/style.css' %}" rel="stylesheet" type="text/css">
-{% endblock %}
 
+{% endblock %}
 
 {% block bootstrap3_title %}
     {% block title %}
@@ -19,10 +20,13 @@
     {% endblock %}
 {% endblock %}
 
+{% block top %}
+
+{% endblock %}
 
 
-
-{% block bootstrap3_content %}
+<div>
+    {% block bootstrap3_content %}
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -35,17 +39,17 @@
                 <a href="{% url 'index' %}" class="navbar-brand">Mistery Books</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="hvr-curl-top-right"><a href="{% url 'index' %}">Home</a></li>
-                    <li class="hvr-curl-top-right"><a href="#about">About</a></li>
-                    <li class="hvr-curl-top-right"><a href="#contact">Contact</a></li>
+                <ul class="navbar-nav">
+                    <li class="hvr-curl-top-right"><a href="{% url 'index' %}"></a></li>
+                    <li class="hvr-curl-top-right"><a href="#about"></a></li>
+                    <li class="hvr-curl-top-right"><a href="#contact"></a></li>
                 </ul>
-                <div class="navbar-form pull-right">
-                    {% if request.user.is_authenticated %}
-                        Welcome, {{ request.user.username }}!
-                        <a href="{% url 'auth_logout' %}">Log Out</a>
+                <div class="navbar-form pullright">
+                    {% if login_logout %}
+                        Welcome, {{ uname }}!
+                        <a href="{% url 'logout' %}">Log Out</a>
                     {% else %}
-                       Welcome, <a href="{% url 'auth_login' %}">Login</a> or <a href="{% url 'registration_register' %}">Register</a>
+                       Welcome, <a href="{% url 'loginpage' %}">Login</a> or
                     {% endif %}
                 </div>
             </div>
@@ -54,8 +58,7 @@
     </nav>
 
     <div class="container-fluid">
-
-       <img src="{% static 'base/img/header_full.jpg' %} " class="bg"/>
+       <img src="{% static 'base/img/header_full.jpg' %} class='bg'"/>
         <div class="parallax">
             <div class="row">
 
@@ -69,13 +72,18 @@
         </div>
     </div>
     <div class="row text-center footer">
-        <div class="text-center">
+        <div class="col-md-2">
             <p>Footer text</p>
             {% block footer %}
 
             {% endblock %}
         </div>
     </div>
-{% endblock %}
+    {% endblock %}
+    {% block content %}
+    OLD without bootstrap Content
+    {% endblock %}
+</div>
+<div>
 
-
+</div>

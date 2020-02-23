@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Some template</title>
-</head>
-<body>
-{% if uname %}
-<h4>
+{% extends 'base.html' %}
 
-    welcome {{ uname }}!
-    <a href="{% url 'logout'%}">Log out</a>
-</h4>
-{% endif %}
-<br/>
-Template1.
-</body>
-</html>
+{% block title %}
+Some template
+{% endblock %}
+
+{% block body %}
+welcome {{ request.user.username }}!
+There are {{count}} books in stock.
+{% endblock %}

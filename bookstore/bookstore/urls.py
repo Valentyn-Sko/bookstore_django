@@ -19,7 +19,10 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('store/', include('store.urls'), name='store'),
-    path('', include('social.apps.django_app.urls', namespace='social')),
+    #path('', include('social.apps.django_app.urls', namespace='social')),
     #path('accounts/', include('django_registration.backends.activation.urls')),
     #path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('registration.backends.default.urls')),
+
+
 ]
