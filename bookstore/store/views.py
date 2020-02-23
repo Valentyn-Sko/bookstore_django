@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from store.models import Book
+from .models import Book
 
 
 def index(request):
@@ -9,15 +9,15 @@ def index(request):
         query = User.objects.filter(username=posts)
 
         uname = query[0].username
-        return render(request, 'store/template.html', {"uname": uname})
+        return render(request, 'template.html', {"uname": uname})
 
-    return render(request, 'store/template.html')
+    return render(request, 'template.html')
 
 
 def store(request):
     count = Book.objects.all().count()
 
-    return render(request, 'store/stock.html', context={'count': count})
+    return render(request, 'stock.html', context={'count': count})
 
 
 # def loginpage(request):      # for custom loinpage (../signin/)
@@ -38,9 +38,9 @@ def profile(request):
     if request.session.has_key('username'):
         posts = request.session['username']
         query = User.objects.filter(username=posts)
-        return render(request, 'store/profile.html', {"query": query})
+        return render(request, 'profile.html', {"query": query})
     else:
-        return render(request, 'store/login.html', {})
+        return render(request, 'registration/login.html', {})
 
 # def logout(request):  #for custom logout
 #    try:

@@ -32,16 +32,20 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'registration',
+
     #'django_registration',
+    #'social_django',
     #'social.apps.django_app.default',
-    'store',
+    'compressor',
+    'bootstrap_themes',
     'bootstrap3',
+    'store',
 
 ]
 
@@ -60,7 +64,9 @@ ROOT_URLCONF = 'bookstore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,8 +74,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-           #     'social.app.django_app.context_processors.backends',
-            #    'social.app.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -125,13 +129,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_URL = '/static/'
+COMPRESS_ENABLED = True
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    #'django.contrib.staticfiles.finders.AppDirectoryFinder',
+    'compressor.finders.CompressorFinder'
+)
+COMPRESS_ROOT = os.path.join(BASE_DIR, 'store/static/')
 
 # registration
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
-LOGIN_REDIRECT_URL = '/store/'
+#LOGIN_REDIRECT_URL = '/store/'
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -144,9 +156,13 @@ DEFAULT_FROM_EMAIL = 'some@email.com'
 
 
 AUTHENTICATION_BACKEND = {
-    'social.backends.facebook.FacebookOAuth2',
+    #'social.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backend.ModelBackend',
 }
 
-SOCIAL_AUTH_FACEBOOK_KEY = ''
-SOCIAL_AUTH_FACEBOOK_SECRET = ''
+#SOCIAL_AUTH_FACEBOOK_KEY = ''
+#SOCIAL_AUTH_FACEBOOK_SECRET = ''
+#SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+
+#REGISTRATION_FORM = os.path.join(BASE_DIR, 'store/templates/registration/')
