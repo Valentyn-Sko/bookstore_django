@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
 Some template
 {% endblock %}
 
 {% block body %}
-welcome {{ request.user.username }}!
-There are {{count}} books in stock.
+<!--div>welcome {{ request.user.username }}!
+</div-->
+{% for b in books %}
+<div class="storefront_book_display">
+
+    <img src="{% static 'base/img/empty_cover.jpg' %}"/>
+    <span class="storefont_book_title">{{b.title}}</span>
+    <span class="storefont_book_title">{{b.get_authors}}</span>
+</div>
+{% endfor %}
 {% endblock %}

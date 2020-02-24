@@ -4,14 +4,16 @@ from .models import Book
 
 
 def index(request):
+    books = Book.objects.all()
+    print(books)
     if request.session.has_key('username'):
         posts = request.session['username']
         query = User.objects.filter(username=posts)
 
         uname = query[0].username
-        return render(request, 'template.html', {"uname": uname})
+        return render(request, 'template.html', context={"uname": uname, "books": books})
 
-    return render(request, 'template.html')
+    return render(request, 'template.html', context={"books": books})
 
 
 def store(request):
