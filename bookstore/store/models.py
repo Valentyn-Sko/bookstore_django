@@ -18,11 +18,11 @@ class Author(models.Model):
     slug = models.SlugField(max_length=150, blank=True, unique=True)
 
     def __str__(self):
-        return '{}'.format(self.first_name+' '+self.last_name)
+        return '{}'.format(self.first_name + ' ' + self.last_name)
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = gen_slug(self.first_name+self.last_name)
+            self.slug = gen_slug(self.first_name + self.last_name)
         super().save(*args, **kwargs)
 
     class Meta:
@@ -47,8 +47,8 @@ class Genre(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    #author = models.CharField(max_length=200)
-    description = models.TextField()
+    # author = models.CharField(max_length=200)
+    description = models.TextField(default="")
     publish_date = models.DateField(default=timezone.now())
     price = models.DecimalField(decimal_places=2, max_digits=8)
     stock = models.IntegerField(default=0)
@@ -60,11 +60,11 @@ class Book(models.Model):
         return "\n".join([g.title for g in self.genres.all()])
 
     def get_authors(self):
-        return "\n".join([g.first_name+' '+g.last_name for g in self.authors.all()])
-
+        return "\n".join([g.first_name + ' ' + g.last_name for g in self.authors.all()])
 
 
 class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(default="")
     publish_date = models.DateField(default=timezone.now())

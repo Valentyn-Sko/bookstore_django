@@ -22,6 +22,14 @@ def store(request):
     return render(request, 'stock.html', context={'count': count})
 
 
+def book_details(request, title):
+    print("book_details")
+    context = {
+        'book': Book.objects.get(title__iexact=title),
+    }
+    print(Book.objects.get(title__iexact=title))
+    return render(request, 'store/detail.html', context=context)
+
 # def loginpage(request):      # for custom loinpage (../signin/)
 #    if request.method == 'POST':
 #        username = request.POST['username']

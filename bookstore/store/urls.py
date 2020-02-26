@@ -7,10 +7,10 @@ urlpatterns = [
     path('stock/', views.store, name='store'),
     path('accounts/profile/', views.profile, name='profile'),
 
-    #path('signin/', views.loginpage, name='loginpage'),
+    # path('signin/', views.loginpage, name='loginpage'),
     path('profile/', views.profile, name='profile'),
-    #path('accounts/', include('django_registration.backends.activation.urls')),
-    #path('accounts/', include('django.contrib.auth.urls')),
-
-    #path('logout/', views.logout, name='logout'),
+    # path('accounts/', include('django_registration.backends.activation.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('book/<title>', views.book_details, name='book_details'),
+    # path('logout/', views.logout, name='logout'),
 ]
