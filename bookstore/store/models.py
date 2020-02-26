@@ -62,9 +62,38 @@ class Book(models.Model):
     def get_authors(self):
         return "\n".join([g.first_name + ' ' + g.last_name for g in self.authors.all()])
 
+    def get_reviews(self):
+        reviews = Review.objects.filter(book=self)
+        print(reviews)
+        return list(reviews)
+
 
 class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(default="")
     publish_date = models.DateField(default=timezone.now())
+
+    def book_title(self):
+        print(self.book.title)
+        return "\n".join([self.book.title])
+
+    def __str__(self):
+        return self.text
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
+    order_date = models.DateField(null=True)
+    payment_type = models.CharField(max_length=100, null=True)
+    payment_id = models.CharField(max_length=100, null=True)
+
+    def add_to_cart(self, book_id):
+        pass
+
+
+class BookOrder(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    quantity = models.IntegerField()

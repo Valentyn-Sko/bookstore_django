@@ -27,7 +27,6 @@ def book_details(request, title):
     context = {
         'book': Book.objects.get(title__iexact=title),
     }
-    print(Book.objects.get(title__iexact=title))
     return render(request, 'store/detail.html', context=context)
 
 # def loginpage(request):      # for custom loinpage (../signin/)
