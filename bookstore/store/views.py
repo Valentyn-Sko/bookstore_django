@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import Book
+from django.core.exceptions import ObjectDoesNotExist
+from .models import *
 
 
 def index(request):
@@ -29,6 +30,7 @@ def book_details(request, title):
     }
     return render(request, 'store/detail.html', context=context)
 
+
 # def loginpage(request):      # for custom loinpage (../signin/)
 #    if request.method == 'POST':
 #        username = request.POST['username']
@@ -51,6 +53,7 @@ def profile(request):
     else:
         return render(request, 'registration/login.html', {})
 
+
 # def logout(request):  #for custom logout
 #    try:
 #        del request.session['username']
@@ -58,3 +61,57 @@ def profile(request):
 #        pass
 #    #return loginpage(request)
 #    return render(request, 'store/logout.html', {})
+
+
+def add_to_cart(request, id):
+    if request.user.id is not None:
+        try:
+            book = Book.objects.get(pk=id)
+        except ObjectDoesNotExist:
+            pass
+        else:
+            try:
+                cart = Cart.objects.get(user=request.user.id, active=True)
+            except ObjectDoesNotExist:
+                cart = Cart.objects.create(
+                    user=request.user
+                )
+                cart.save()
+            cart.add_to_cart(id)
+        return redirect('cart')
+    else:
+        return redirect('index')
+
+
+def remove_from_cart(request, id):
+    if request.user.id is not None:
+        try:
+            book = Book.objects.get(pk=id)
+        except ObjectDoesNotExist:
+            pass
+        else:
+            cart = Cart.objects.get(user=request.user, active=True)
+            cart.remove_from_cart(id)
+        return redirect('cart')
+    else:
+        return redirect('index')
+
+
+def cart(request):
+    if request.user.id is not None:
+        cart = Cart.objects.get(user=request.user.id, active=True)
+        orders = BookOrder.objects.filter(cart=cart)
+        total = 0
+        count = 0
+
+        for order in orders:
+            total += (order.book.price * order.quantity)
+            count += order.quantity
+        context = {
+            'cart': orders,
+            'total': total,
+            'count': count,
+        }
+        return render(request, 'store/cart.html', context)
+    else:
+        return redirect('index')

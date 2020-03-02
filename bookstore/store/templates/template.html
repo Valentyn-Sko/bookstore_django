@@ -14,7 +14,10 @@ Some template
 
     <img src="{% static 'base/img/empty_cover.jpg' %}"/>
     <span class="storefont_book_title">{{b.title}}</span>
-    <span class="storefont_book_title">{{b.get_authors}}</span>
+    <span class="storefont_book_author">{{b.get_authors}}</span>
+
+    <span class="storefont_add_to_cart">
+        <a href="{% url 'add_to_cart' b.id %}">[Add To Cart]</a></span>
 </div>
 </a>
 {% endfor %}
