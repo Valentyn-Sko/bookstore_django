@@ -100,7 +100,10 @@ def remove_from_cart(request, id):
 
 def cart(request):
     if request.user.id is not None:
-        cart = Cart.objects.get(user=request.user.id, active=True)
+        try:
+            cart = Cart.objects.get(user=request.user.id, active=True)
+        except ObjectDoesNotExist:
+            return render(request, 'store/cart.html', context={})
         orders = BookOrder.objects.filter(cart=cart)
         total = 0
         count = 0

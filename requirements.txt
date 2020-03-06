@@ -1,3 +1,4 @@
+paypalrestsdk
 asgiref==3.2.3
 Django==3.0.3
 django-registration-redux==2.7
