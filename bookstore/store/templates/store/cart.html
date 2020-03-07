@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load custom_filters %}
 {% block title %}
 Your Cart!
 {% endblock %}
@@ -33,6 +34,67 @@ Your Cart!
 
 
             <div><a href="{% url 'checkout' 'paypal' %}"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal Logo"></a></div>
+            <div style="display: none;">
+                <p onclick="myFunction(this, 'red')">Click me to change my text color.</p>
+
+<script>
+function myFunction(elmnt,clr) {
+  elmnt.style.color = clr;
+}
+</script>
+            </div>
+            <div style="display: none;">
+                {% csrf_token %}
+                <a href="#">
+                    <img src ="{% static 'base/img/stripe.png' %}" id="customBotton">
+                    <script>
+                        var csrf_token = $.cookie('csrf_token');
+                        function csrfSafeMethod(method) {
+                            return(/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                        }
+                        $.ajaxSetup({
+                            beforeSend: function(xhr, settings){
+                                if(!csrfSaveMethod(setting.type) && !this.crossDomain){
+                                    xhr.serRequestHeader("X-CSRFToken",csrftoken);
+                                }
+                            }
+                        });
+                        var handler = StripeCheckout.configure({
+                            key:'pk_test_xHAHpxyiY2lznCEIZdVkMr5t002xnGgz3M',
+                            token: function(token){
+                                $.post("{% url 'checkout' 'stripe' %}",{'stripeToken':token.id,'csrfmiddlewaretoken':csrftoken} function(data){
+                                    window.location.replace(data['redirect_url']);
+                                });
+                            }
+                        });
+                        $('#customBotton').on('click',function(e){
+                            handler.open({
+                                name: 'Book store',
+                                description: '{{ count }}' book {{ count|pluralize }}',
+                                currency: 'USD',
+                                amount: '{{ total|to_cents}}'
+
+                            });
+                            e.preventDefault();
+
+                        });
+
+                        $(window).on('popstate', function(){
+                            handler.close();
+                        });
+                    </script>
+                </a>
+            </div>
+            <div style="display: none;">
+<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="{{ key }}" ,
+        data-description=" '{{ count }}' book {{ count|pluralize }}'",
+        data-amount="{{ total|to_cents}}"
+        data-locale="auto">
+     window.location.replace(data['redirect_url']);
+</script>
+            </div>
+
             {% endif %}
         </div>
     </div>

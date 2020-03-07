@@ -161,6 +161,9 @@ AUTHENTICATION_BACKEND = {
     'django.contrib.auth.backend.ModelBackend',
 }
 
+STRIPE_SECRET_KEY = 'sk_test_oetchDORscwl8d4I4u1ve5rI00AxIIxzpn'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_xHAHpxyiY2lznCEIZdVkMr5t002xnGgz3M'
+
 #SOCIAL_AUTH_FACEBOOK_KEY = ''
 #SOCIAL_AUTH_FACEBOOK_SECRET = ''
 #SOCIAL_AUTH_URL_NAMESPACE = 'social'

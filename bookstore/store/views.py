@@ -1,7 +1,11 @@
 import paypalrestsdk
+import stripe
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+
+from bookstore import settings
 from .models import *
 
 
@@ -115,6 +119,7 @@ def cart(request):
             'cart': orders,
             'total': total,
             'count': count,
+            'key': settings.STRIPE_PUBLISHABLE_KEY,
         }
         return render(request, 'store/cart.html', context)
     else:
@@ -128,8 +133,15 @@ def checkout(request, processor):
         if processor == 'paypal':
             redirect_url = checkout_paypal(request, cart, orders)
             return redirect(redirect_url)
-        else:
-            return redirect('index')
+        elif processor == 'stripe':
+            token = request.POST('stripeToken')
+            status = checkout_strip(cart,orders,token)
+            if status:
+                return redirect(reverse('process_order',args=['stripe']))
+            else:
+                return redirect('order_error', context={'message':'There was a problem processing your payment.'})
+    else:
+        return redirect('index')
 
 
 def checkout_paypal(request, cart, orders):
@@ -188,6 +200,28 @@ def checkout_paypal(request, cart, orders):
         return redirect('index')
 
 
+def checkout_strip(cart, orders, token):
+    stripe.api_key='sk_test_oetchDORscwl8d4I4u1ve5rI00AxIIxzpn'
+    total = 0
+    for order in orders:
+        total += (order.quantity*order.book.price)
+    status = True
+    try:
+        charge = stripe.Charge.create(
+            amount=int(total*100),
+            currency='USD',
+            source=token,
+            metadata={'order_id':cart.get().id}
+        )
+        cart_instanse = cart.get()
+        cart_instanse.payment_id = charge.id
+        cart_instanse.save()
+    except stripe.error.CardError as e:
+        status = False
+    return status
+
+
+
 def order_error(request):
     if request.user.id is not None:
         return render(request, 'store/order_error.html')
@@ -209,8 +243,10 @@ def process_order(request, processor):
                 'total': total,
             }
             return render(request, 'store/process_order.html', context)
-        else:
-            return redirect('index')
+        elif processor =='stripe':
+            return JsonResponse({'redirect_url':reverse('complete_order',args=['stripe'])})
+    else:
+        return redirect('index')
 
 
 def complete_order(request, processor):
@@ -226,6 +262,7 @@ def complete_order(request, processor):
                 message = "Success! Your order has been completed. Payment ID: %s" % (payment.id)
                 cart.active = False
                 cart.order_date = timezone.now()
+                cart.payment_type='Paypal'
                 cart.save()
             else:
                 message = "There was a problem with transaction. Error %s" % (payment.error.message)
@@ -233,5 +270,17 @@ def complete_order(request, processor):
                 'message': message,
             }
             return render(request, 'store/order_complete.html', context)
-        else:
-            return redirect('index')
+        elif processor=='stripe':
+            cart.active=False
+            cart.order_date=timezone.now()
+            cart.payment_type = 'Stripe'
+            cart.save()
+            message = "Success! Your order has been completed. Payment ID: %s" % (cart.payment_id)
+            context={
+                'message':message,
+            }
+            return render(request, 'store/order_complete.html', context)
+
+
+    else:
+        return redirect('index')
