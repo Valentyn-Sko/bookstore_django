@@ -12,6 +12,12 @@
     {% compress css %}
     <link href="{% static 'base/css/style.css' %}" rel="stylesheet" type="text/css">
     {% endcompress %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+
+    {% compress js %}
+    <script src="{% static 'base/js/jquery.cookie.js' %}"></script>
+    {% endcompress %}
 {% endblock %}
 
 
@@ -41,6 +47,7 @@
                     <li class="hvr-curl-top-right"><a href="{% url 'index' %}">Home</a></li>
                     <li class="hvr-curl-top-right"><a href="#about">About</a></li>
                     <li class="hvr-curl-top-right"><a href="#contact">Contact</a></li>
+                    <li class="hvr-curl-top-right"><a href="{% url 'cart' %}">Cart</a></li>
                 </ul>
                 <div class="navbar-form pull-right">
                     {% if request.user.is_authenticated %}
@@ -61,12 +68,13 @@
         <div class="parallax">
             <div class="row">
 
+            <div class="col-md-8 col-md-offset-2 col-sm-12 maincontent">
 
             {% block body %}
-            <div class="col-md-8 col-md-offset-2 col-sm-12 ">
-                Welcome to store!
-            </div>
+                <div style="text-align:center" ><h3>Welcome to store!</h3></div>
             {% endblock %}
+                </div>
+
             </div>
         </div>
     </div>

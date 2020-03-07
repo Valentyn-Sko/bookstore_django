@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}
+{{book.title}}
+{% endblock %}
+
+  {% block body %}
+<div class="col-md-8 col-md-offset-2 col-sm-12 maincontent">
+    <div class="detail_book_display">
+        <img class="detail_book_img" src="{{ MEDIA_URL }}{{book.cover_image}}" width="200" height="400">
+        <span class="detail_book_title">{{ book.title }}</span>
+        <span class="detail_book_author">{{ book.author }}</span>
+        <div class="detail_book_description">{{ book.description }}</div>
+        <div class="detail_book_reviews_title">Reviews</div>
+        <div class="detail_book_reviews">
+            {% if book.get_reviews %}
+                {% for review in book.get_reviews %}
+            <div>{{ review.user }}</div>
+            <div>{{ review.text }}</div>
+                {% endfor %}
+            {% else %}
+                There are no reviews for this book yet!
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+blas
+{% endblock %}
