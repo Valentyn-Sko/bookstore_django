@@ -45,6 +45,10 @@ class Genre(models.Model):
         ordering = ['title']
 
 
+def cover_upload_path(instanse, filename):
+    return "/".join(['books', str(instanse.id), filename])
+
+
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200, blank=True)
@@ -52,6 +56,7 @@ class Book(models.Model):
     publish_date = models.DateField(default=timezone.now())
     price = models.DecimalField(decimal_places=2, max_digits=8)
     stock = models.IntegerField(default=0)
+    cover_image = models.ImageField(upload_to=cover_upload_path, default='books/empty_cover.jpg')
 
     genres = models.ManyToManyField('Genre', blank=True, related_name='books')
     authors = models.ManyToManyField('Author', blank=True, related_name='books')

@@ -8,7 +8,7 @@
   {% block body %}
 <div class="col-md-8 col-md-offset-2 col-sm-12 maincontent">
     <div class="detail_book_display">
-        <img class="detail_book_img" src="{% static 'base/img/empty_cover.jpg' %}">
+        <img class="detail_book_img" src="{{ MEDIA_URL }}{{book.cover_image}}" width="200" height="400">
         <span class="detail_book_title">{{ book.title }}</span>
         <span class="detail_book_author">{{ book.author }}</span>
         <div class="detail_book_description">{{ book.description }}</div>

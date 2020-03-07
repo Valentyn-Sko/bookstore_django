@@ -12,13 +12,14 @@ Some template
     <a href="{% url 'book_details' b.title %}">
 <div class="storefront_book_display">
 
-    <img src="{% static 'base/img/empty_cover.jpg' %}"/>
-    <span class="storefont_book_title">{{b.title}}</span>
+    <img src="{{MEDIA_URL}}{{b.cover_image}}" width="200" height="400">
+        <span class="storefont_book_title">{{b.title}}</span>
     <span class="storefont_book_author">{{b.get_authors}}</span>
-
+    <div>
     <span class="storefont_add_to_cart">
         <a href="{% url 'add_to_cart' b.id %}">[Add To Cart]</a></span>
 </div>
+    </div>
 </a>
 {% endfor %}
 {% endblock %}

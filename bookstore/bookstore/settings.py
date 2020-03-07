@@ -75,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -164,9 +165,17 @@ AUTHENTICATION_BACKEND = {
 STRIPE_SECRET_KEY = 'sk_test_oetchDORscwl8d4I4u1ve5rI00AxIIxzpn'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_xHAHpxyiY2lznCEIZdVkMr5t002xnGgz3M'
 
+
+
+
 #SOCIAL_AUTH_FACEBOOK_KEY = ''
 #SOCIAL_AUTH_FACEBOOK_SECRET = ''
 #SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 
 #REGISTRATION_FORM = os.path.join(BASE_DIR, 'store/templates/registration/')
+
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL='/media/'
