@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.gis.geoip2 import GeoIP2
 
 from bookstore import settings
 from .models import *
@@ -31,7 +32,7 @@ def store(request):
 
 
 def book_details(request, title):
-    book=Book.objects.get(title__iexact=title)#Book.obgects.get(pk=book_id)
+    book = Book.objects.get(title__iexact=title)  # Book.obgects.get(pk=book_id)
     context = {
         'book': book
     }
@@ -50,6 +51,15 @@ def book_details(request, title):
                 form = ReviewForm()
                 context['form'] = form
     context['reviews'] = book.review_set.all()
+    ip_s=request.META.get('REMOTE_ADDR')
+    geo_info=''
+    if ip_s != '127.0.0.1':
+        geo_info = GeoIP2().city(ip_s)
+    if not geo_info:
+        geo_info = GeoIP2().city('93.178.204.228')
+    context['geo_info'] = geo_info
+    print(geo_info)
+
     return render(request, 'store/detail.html', context=context)
 
 
@@ -296,7 +306,6 @@ def complete_order(request, processor):
                 'message': message,
             }
             return render(request, 'store/order_complete.html', context)
-
 
     else:
         return redirect('index')
