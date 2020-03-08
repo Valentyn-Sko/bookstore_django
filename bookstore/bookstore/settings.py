@@ -179,3 +179,6 @@ STRIPE_PUBLISHABLE_KEY = 'pk_test_xHAHpxyiY2lznCEIZdVkMr5t002xnGgz3M'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL='/media/'
+
+
+GEOIP_PATH = 'geo/'
