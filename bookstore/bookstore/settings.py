@@ -156,6 +156,16 @@ EMAIL_HOST_PASSWORD = 'thermonuclearengine'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'some@email.com'
 
+#MAIL GUN 
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp.mailgun.org'
+#EMAIL_PORT = 587
+#EMAIL_HOST_USER = 'postmaster@sandbox52e991105a4541478637a795abaf6aaa.mailgun.org'
+#EMAIL_HOST_PASSWORD = '8d2c7dd22dee40d70948d1d8a2495024-c322068c-8069e47d'
+#EMAIL_USE_TLS = True
+#DEFAULT_FROM_EMAIL = 'some@email.com'
+
+
 
 AUTHENTICATION_BACKEND = {
     #'social.backends.facebook.FacebookOAuth2',
