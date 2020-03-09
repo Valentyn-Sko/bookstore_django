@@ -1,0 +1,7 @@
+<p>Hello {{username}},  thanks for buying....</p>
+
+{% for order in orders %}
+    <p>{{ order.quantity }} x {{order.book.title }} </p>
+{% endfor %}
+
+<p>Have a nice day!</p>

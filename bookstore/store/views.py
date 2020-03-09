@@ -1,11 +1,14 @@
 import form as form
 import paypalrestsdk
 import stripe
+from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.gis.geoip2 import GeoIP2
+from django.template import Context
+from django.template.loader import render_to_string
 
 from bookstore import settings
 from .models import *
@@ -51,8 +54,8 @@ def book_details(request, title):
                 form = ReviewForm()
                 context['form'] = form
     context['reviews'] = book.review_set.all()
-    ip_s=request.META.get('REMOTE_ADDR')
-    geo_info=''
+    ip_s = request.META.get('REMOTE_ADDR')
+    geo_info = ''
     if ip_s != '127.0.0.1':
         geo_info = GeoIP2().city(ip_s)
     if not geo_info:
@@ -278,7 +281,6 @@ def process_order(request, processor):
 def complete_order(request, processor):
     if request.user.id is not None:
         cart = Cart.objects.filter(user=request.user.id)
-        print(list(cart))
         for c in cart:  # kostil
             cart1 = c  # kostil
         cart = cart1
@@ -290,6 +292,7 @@ def complete_order(request, processor):
                 cart.order_date = timezone.now()
                 cart.payment_type = 'Paypal'
                 cart.save()
+                qty_update(cart)
             else:
                 message = "There was a problem with transaction. Error %s" % (payment.error.message)
             context = {
@@ -301,6 +304,7 @@ def complete_order(request, processor):
             cart.order_date = timezone.now()
             cart.payment_type = 'Stripe'
             cart.save()
+            qty_update(cart)
             message = "Success! Your order has been completed. Payment ID: %s" % (cart.payment_id)
             context = {
                 'message': message,
@@ -309,3 +313,28 @@ def complete_order(request, processor):
 
     else:
         return redirect('index')
+
+
+def qty_update(cart):
+    orders = BookOrder.objects.filter(cart=cart)
+    total = 0
+    for order in orders:
+        book = Book.objects.get(id=order.book.id)
+        book.stock -= order.quantity
+        book.save()
+
+        # thanks email
+        rom_email = 'some@gmail.com'
+        to_email = ('i0000017vs@gmail.com',)
+
+        email_context = Context({
+            'username': cart.user,
+            'orders': orders
+        })
+
+        subject = 'hello'
+        text_content = 'This is an important message.'
+        html_content = '<p>This is an <strong>important</strong> message.</p>'
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()

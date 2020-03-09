@@ -1,0 +1,7 @@
+Hello {{username}},  thanks for buying....
+
+{% for order in orders %}
+    {{ order.quantity }} x {{order.book.title }}
+{% endfor %}
+
+Have a nice day!
