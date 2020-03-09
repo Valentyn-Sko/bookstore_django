@@ -1,5 +1,6 @@
 from django.urls import path, include
 
+from bookstore import settings
 from . import views
 
 urlpatterns = [
@@ -22,3 +23,9 @@ urlpatterns = [
     path('complete_order/<processor>', views.complete_order, name='complete_order'),
 
 ]
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
