@@ -11,8 +11,16 @@ from bookstore import settings
 from .models import *
 from .forms import ReviewForm
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def index(request):
+    i = 0
+    while i < 10:
+        logger.debug("Test log")
+        i += 1
     books = Book.objects.all()
     print(books)
     if request.session.has_key('username'):
@@ -32,7 +40,7 @@ def store(request):
 
 
 def book_details(request, book_id):
-    book = get_object_or_404(Book, id = book_id)  # Book.obgects.get(pk=book_id)
+    book = get_object_or_404(Book, id=book_id)  # Book.obgects.get(pk=book_id)
     context = {
         'book': book
     }

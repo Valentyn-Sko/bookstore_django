@@ -214,3 +214,33 @@ MEDIA_URL='/media/'
 GEOIP_PATH = 'geo/'
 
 DEBUG=True
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formaters':{
+        'basic':{
+            'format':'%(asctime)s %(name)-20s %(levelname)-8s %(module)s | %(message)s'
+        },
+    },
+
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'my_logs.log'),
+        },
+    },
+    'loggers': {
+        'store':{
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+        #'django': {
+        #    'handlers': ['file'],
+        #    'level': 'DEBUG',
+        #    'propagate': True,
+        #},
+    },
+}
