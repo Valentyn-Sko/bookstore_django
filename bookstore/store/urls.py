@@ -12,7 +12,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     # path('accounts/', include('django_registration.backends.activation.urls')),
     # path('accounts/', include('django.contrib.auth.urls')),
-    path('book/<title>', views.book_details, name='book_details'),
+    path('book/<book_id>', views.book_details, name='book_details'),
     # path('logout/', views.logout, name='logout'),
     path('add/<id>', views.add_to_cart, name='add_to_cart'),
     path('remove/<id>', views.remove_from_cart, name='remove_from_cart'),

@@ -162,6 +162,8 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/static/'
+
+
 COMPRESS_ENABLED = True
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -211,4 +213,4 @@ MEDIA_URL='/media/'
 
 GEOIP_PATH = 'geo/'
 
-DJANGO_DEBUG=True
+DEBUG=True

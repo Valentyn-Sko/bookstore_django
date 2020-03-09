@@ -2,7 +2,7 @@ import form as form
 import paypalrestsdk
 import stripe
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.gis.geoip2 import GeoIP2
@@ -31,8 +31,8 @@ def store(request):
     return render(request, 'stock.html', context={'count': count})
 
 
-def book_details(request, title):
-    book = Book.objects.get(title__iexact=title)  # Book.obgects.get(pk=book_id)
+def book_details(request, book_id):
+    book = get_object_or_404(Book, id = book_id)  # Book.obgects.get(pk=book_id)
     context = {
         'book': book
     }
@@ -51,8 +51,8 @@ def book_details(request, title):
                 form = ReviewForm()
                 context['form'] = form
     context['reviews'] = book.review_set.all()
-    ip_s=request.META.get('REMOTE_ADDR')
-    geo_info=''
+    ip_s = request.META.get('REMOTE_ADDR')
+    geo_info = ''
     if ip_s != '127.0.0.1':
         geo_info = GeoIP2().city(ip_s)
     if not geo_info:
