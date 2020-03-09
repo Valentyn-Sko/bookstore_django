@@ -78,6 +78,8 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(default="")
     publish_date = models.DateField(default=timezone.now())
+    latitude = models.TextField(default="50.45466")
+    longitude = models.TextField(default="30.5238")
 
     def book_title(self):
         print(self.book.title)

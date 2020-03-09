@@ -1,3 +1,4 @@
+django-tastypie
 stripe
 paypalrestsdk
 asgiref==3.2.3

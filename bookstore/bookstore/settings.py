@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'compressor',
     'bootstrap_themes',
     'bootstrap3',
+    'tastypie',
 
 
 ]

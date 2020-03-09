@@ -17,6 +17,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+from tastypie.api import Api
+from store.api import ReviewResource
+
+v1_api = Api(api_name='v1')
+v1_api.register(ReviewResource())
+
 
 from bookstore import settings
 
@@ -28,7 +34,6 @@ urlpatterns = [
     #path('accounts/', include('django_registration.backends.activation.urls')),
     #path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('registration.backends.default.urls')),
-
-
+    path('api/', include(v1_api.urls)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
