@@ -9,7 +9,7 @@ Some template
 </div-->
 {% for b in books %}
 
-    <a href="{% url 'book_details' b.title %}">
+    <a href="{% url 'book_details' b.id %}">
 <div class="storefront_book_display">
 
     <img src="{{MEDIA_URL}}{{b.cover_image}}" width="200" height="400">

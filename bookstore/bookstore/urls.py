@@ -26,6 +26,7 @@ v1_api.register(ReviewResource())
 
 from bookstore import settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('store/', include('store.urls'), name='store'),
@@ -36,4 +37,16 @@ urlpatterns = [
     path('accounts/', include('registration.backends.default.urls')),
     path('api/', include(v1_api.urls)),
 
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+
+        # For django versions before 2.0:
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
+    ] + urlpatterns
